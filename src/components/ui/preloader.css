@@ -1,0 +1,101 @@
+/* --- Preloader Overlay and Animated Background --- */
+.preloader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* A subtle, moving gradient for a premium feel */
+  background: linear-gradient(270deg, #0f2027, #203a43, #2c5364, #203a43);
+  background-size: 200% 200%;
+  animation: moving-gradient 10s ease infinite;
+
+  transition: opacity 0.5s ease-in-out;
+}
+
+.preloader-overlay.fade-out {
+  opacity: 0;
+}
+
+/* --- The Container for the Logo and its Shine Effect --- */
+.preloader-container {
+  /* This is crucial for the shine effect to work */
+  position: relative;
+  overflow: hidden; /* Hides the shine when it's outside the logo */
+}
+
+/* --- Logo Styling: Responsive and Bigger --- */
+.preloader-logo {
+  /* RESPONSIVE SIZING: The logo will be 40% of the screen's width */
+  width: 40vw; 
+  
+  /* Set a MAXIMUM size for large desktop screens */
+  max-width: 250px; 
+
+  /* Set a MINIMUM size for very small mobile screens */
+  min-width: 150px;
+  
+  height: auto;
+  display: block;
+
+  /* Binds the main logo animation */
+  animation: logo-grow 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* --- The "Shine" Effect using a pseudo-element --- */
+.preloader-logo::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 50%;
+  height: 200%;
+  
+  /* A white, angled beam of light */
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  
+  /* Binds the shine animation with a delay */
+  animation: shine-effect 1.5s ease-in-out forwards;
+  animation-delay: 0.5s; /* The shine starts after the logo has appeared */
+}
+
+
+/* === KEYFRAME ANIMATIONS === */
+
+/* The animation for the moving background gradient */
+@keyframes moving-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* The animation for the logo growing into place */
+@keyframes logo-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05); /* Slightly overshoots for a dynamic effect */
+  }
+  60%, 100% {
+    opacity: 1;
+    transform: scale(1); /* Settles into its final size */
+  }
+}
+
+/* The animation for the shine effect sweeping across the logo */
+@keyframes shine-effect {
+  100% {
+    left: 150%;
+  }
+}

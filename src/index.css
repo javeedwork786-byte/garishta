@@ -1,0 +1,389 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Garishtha Infra Developers - Premium Real Estate Design System */
+
+@layer base {
+  :root {
+    /* Premium Navy & Gold Color Scheme */
+    --background: 0 0% 100%;
+    --foreground: 210 15% 15%;
+
+    /* Deep Professional Navy - Primary Brand */
+    --primary: 200 100% 8%;        /* Deep navy #0d2f3f equivalent */
+    --primary-foreground: 0 0% 98%;
+    --primary-light: 200 85% 25%;  /* Lighter navy for accents */
+    
+    /* Sophisticated Gold Accent */
+    --accent-gold: 38 40% 70%;     /* Muted gold #c5a47e equivalent */
+    --accent-gold-light: 38 50% 80%;
+    --accent-foreground: 210 15% 15%;
+
+    /* Clean Neutral Palette */
+    --secondary: 210 20% 98%;      /* Very clean off-white #f8f9fa */
+    --secondary-foreground: 210 15% 15%;
+    
+    --muted: 210 15% 96%;
+    --muted-foreground: 220 15% 42%; /* #6c757d equivalent */
+    
+    --card: 0 0% 100%;
+    --card-foreground: 210 15% 15%;
+    
+    /* UI Elements */
+    --border: 210 20% 90%;
+    --input: 210 20% 95%;
+    --ring: 200 100% 8%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 15% 15%;
+
+    /* Premium Typography */
+    --radius: 0.5rem;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Manrope', sans-serif;
+    
+    /* Real Estate Specific */
+    --success: 142 76% 36%;        
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;         
+    --warning-foreground: 0 0% 98%;
+    
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(200 100% 8%), hsl(200 85% 25%));
+    --gradient-gold: linear-gradient(135deg, hsl(38 40% 70%), hsl(38 50% 80%));
+    --gradient-hero: linear-gradient(135deg, hsl(200 100% 8% / 0.95), hsl(200 85% 25% / 0.9));
+    --gradient-preloader: linear-gradient(135deg, hsl(200 100% 8%), hsl(38 40% 70%));
+    
+    /* Luxury Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(200 100% 8% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(200 100% 8% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(200 100% 8% / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(200 100% 8% / 0.1);
+    --shadow-gold: 0 10px 30px -10px hsl(38 40% 70% / 0.3);
+    
+    /* Smooth Animations */
+    --transition-fast: 0.15s ease-out;
+    --transition-normal: 0.3s ease-out;
+    --transition-slow: 0.5s ease-out;
+  }
+
+  .dark {
+    --background: 210 20% 5%;
+    --foreground: 210 20% 98%;
+    
+    --primary: 200 70% 45%;
+    --primary-foreground: 210 20% 5%;
+    --primary-light: 200 60% 60%;
+    
+    --secondary: 210 15% 10%;
+    --secondary-foreground: 210 20% 98%;
+    
+    --muted: 210 15% 15%;
+    --muted-foreground: 210 15% 60%;
+    
+    --card: 210 15% 8%;
+    --card-foreground: 210 20% 98%;
+    
+    --border: 210 15% 20%;
+    --input: 210 15% 15%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  /* Premium Animated Preloader */
+  .preloader {
+    @apply fixed inset-0 z-[9999] flex items-center justify-center;
+    background: var(--gradient-preloader);
+    animation: gradientShift 6s ease-in-out infinite;
+  }
+  
+  .preloader-content {
+    @apply text-center text-white relative;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .preloader-logo {
+    @apply w-32 h-32 mx-auto mb-8 relative;
+    animation: logoGlow 2s ease-in-out infinite alternate;
+  }
+  
+  .preloader-logo::before {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: radial-gradient(circle, hsl(38 40% 70% / 0.3), transparent);
+    animation: ripple 2s infinite;
+  }
+  
+  .loading-text {
+    @apply text-2xl font-semibold mb-2;
+    font-family: var(--font-heading);
+    animation: textGlow 2s ease-in-out infinite alternate;
+  }
+  
+  .loading-subtitle {
+    @apply text-lg text-white/80 mb-8;
+    font-family: var(--font-body);
+  }
+  
+  .progress-container {
+    @apply relative w-80 mx-auto;
+  }
+  
+  .progress-bar {
+    @apply w-full h-2 bg-white/20 rounded-full overflow-hidden backdrop-blur-sm;
+    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.2);
+  }
+  
+  .progress-fill {
+    @apply h-full rounded-full relative;
+    background: linear-gradient(90deg, hsl(38 40% 70%), hsl(38 50% 80%), hsl(38 40% 70%));
+    background-size: 200% 100%;
+    animation: progressShine 1.5s infinite, progressAdvance 3s ease-out forwards;
+    box-shadow: 0 0 20px hsl(38 40% 70% / 0.5);
+  }
+  
+  .progress-percentage {
+    @apply text-sm text-white/70 mt-3 font-medium;
+    letter-spacing: 1px;
+  }
+  
+  .building-icons {
+    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10;
+    font-size: 120px;
+    animation: buildingFloat 4s ease-in-out infinite;
+  }
+  
+  /* Header Styles */
+  .header-fixed {
+    @apply fixed top-0 left-0 right-0 z-50 transition-all duration-300;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Button Variants */
+  .btn-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    background: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+    box-shadow: var(--shadow-md);
+  }
+  
+  .btn-primary:hover {
+    @apply transform scale-105;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .btn-gold {
+    @apply inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    background: var(--gradient-gold);
+    color: hsl(var(--foreground));
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .btn-gold:hover {
+    @apply transform scale-105;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center px-6 py-3 rounded-lg font-semibold border-2 transition-all duration-300;
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary));
+  }
+  
+  .btn-outline:hover {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    @apply min-h-screen flex items-center relative overflow-hidden;
+    background: var(--gradient-hero);
+  }
+  
+  .hero-content {
+    @apply relative z-10 text-white;
+  }
+  
+  /* Cards */
+  .card-elevated {
+    @apply bg-card rounded-xl p-6 transition-all duration-300 border border-border;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .card-elevated:hover {
+    @apply transform -translate-y-2;
+    box-shadow: var(--shadow-xl);
+  }
+  
+  /* Navigation */
+  .nav-link {
+    @apply relative px-3 py-2 font-medium transition-colors duration-300;
+    color: hsl(var(--foreground));
+  }
+  
+  .nav-link::after {
+    @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
+    content: '';
+    background: hsl(var(--accent-gold));
+  }
+  
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    @apply w-full;
+  }
+  
+  /* WhatsApp Bot Styles */
+  .whatsapp-bot {
+    @apply fixed bottom-6 right-6 z-50;
+  }
+  
+  .whatsapp-button {
+    @apply w-16 h-16 bg-success rounded-full shadow-2xl flex items-center justify-center text-white;
+    @apply hover:bg-success/90 transition-all duration-300;
+    animation: whatsappPulse 2s infinite;
+  }
+  
+  .whatsapp-chat {
+    @apply absolute bottom-20 right-0 bg-card rounded-2xl shadow-2xl w-80 border border-border overflow-hidden;
+    animation: scaleIn 0.3s ease-out;
+  }
+  
+  /* Trust Bar Counter Animation */
+  .counter-animate {
+    animation: countUp 0.6s ease-out forwards;
+  }
+
+  /* Animations */
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  
+  .slide-up {
+    animation: slideUp 0.8s ease-out forwards;
+  }
+  
+  .scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+}
+
+/* Premium Preloader Keyframes */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes logoGlow {
+  0% { filter: drop-shadow(0 0 20px hsl(38 40% 70% / 0.3)); }
+  100% { filter: drop-shadow(0 0 40px hsl(38 40% 70% / 0.6)); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes textGlow {
+  0% { text-shadow: 0 0 20px hsl(38 40% 70% / 0.5); }
+  100% { text-shadow: 0 0 30px hsl(38 40% 70% / 0.8); }
+}
+
+@keyframes progressShine {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes progressAdvance {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes buildingFloat {
+  0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+  50% { transform: translate(-50%, -50%) rotate(2deg); }
+}
+
+/* WhatsApp Bot Animation Keyframes */
+@keyframes whatsappPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 hsl(142 76% 36% / 0.7); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 10px hsl(142 76% 36% / 0); }
+}
+
+@keyframes whatsappBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes messageSlide {
+  0% { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* General Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes countUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+
+
+
+}
+
+
+/* Add this to your main CSS file (e.g., index.css) */
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.5s ease-out forwards;
+}
