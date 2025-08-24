@@ -171,7 +171,7 @@ const Index = () => {
         </div>
 
         {/* --- MOBILE LAYOUT (Corrected Image Source) --- */}
-        <div className="lg:hidden absolute inset-0 flex items-center z-10">
+        <div className="lg:hidden absolute inset-0 flex items-start z-10 pt-40">
             <div className="w-full px-8 sm:px-12">
                 <div className="mb-4">
                     <img 
