@@ -1,35 +1,49 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Users, Building, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { projectsData } from "../data/projectsData";
 
 const AnimatedCounter = ({ end, suffix = "" }) => {
   const [count, setCount] = useState(0);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-    if (!hasAnimated) {
-      const timer = setTimeout(() => {
-        let current = 0;
-        const increment = end / 100;
-        const countTimer = setInterval(() => {
-          current += increment;
-          if (current >= end) {
-            setCount(end);
-            clearInterval(countTimer);
-          } else {
-            setCount(Math.floor(current));
-          }
-        }, 30);
-        setHasAnimated(true);
-      }, 1000);
+    const element = ref.current;
+    if (!element) return;
 
-      return () => clearTimeout(timer);
-    }
-  }, [end, hasAnimated]);
+    const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+            let start = 0;
+            const duration = 2000;
+            const frameRate = 60;
+            const totalFrames = Math.round(duration / (1000 / frameRate));
+            const increment = end / totalFrames;
 
-  return <span>{count}{suffix}</span>;
+            const counter = setInterval(() => {
+                start += increment;
+                if (start >= end) {
+                    setCount(end);
+                    clearInterval(counter);
+                } else {
+                    setCount(Math.ceil(start));
+                }
+            }, 1000 / frameRate);
+            
+            observer.disconnect();
+        }
+    }, { threshold: 0.5 });
+
+    observer.observe(element);
+
+    return () => {
+        observer.unobserve(element);
+    };
+  }, [end]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
 };
+
 
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -109,7 +123,7 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Navigation Arrows */}
+        {/* --- Navigation Arrows (For both mobile and desktop) --- */}
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 hover:bg-white/30 rounded-full p-3 transition-all duration-300 cursor-pointer"
@@ -123,8 +137,8 @@ const Index = () => {
           <ChevronRight className="w-6 h-6 text-white" />
         </button>
 
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex items-center z-10">
+        {/* --- DESKTOP Hero Content (Hidden on mobile) --- */}
+        <div className="hidden lg:flex absolute inset-0 items-center z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="text-white">
@@ -156,8 +170,24 @@ const Index = () => {
           </div>
         </div>
 
+        {/* --- MOBILE LAYOUT (Corrected Image Source) --- */}
+        <div className="lg:hidden absolute inset-0 flex items-center z-10">
+            <div className="w-full px-8 sm:px-12">
+                <div className="mb-4">
+                    <img 
+                      src="/lovable-uploads/garishthainfradevelopers.png" 
+                      alt="Garishtha Infra Developers Logo" 
+                      className="w-48" // Adjusted size for full logo
+                    />
+                </div>
+                <div className="inline-block bg-black/40 backdrop-blur-sm text-white px-6 py-3 rounded-full">
+                    Your future starts here
+                </div>
+            </div>
+        </div>
+
         {/* Carousel Indicators */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        <div className="absolute bottom-24 lg:bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -169,19 +199,39 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Company Logo Overlay */}
-        <div className="absolute bottom-8 left-8 z-20">
-          <div className="flex items-center space-x-3 text-white">
-            <div className="w-10 h-10 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold">GI</span>
+        {/* --- MOBILE STATS OVERLAY (4 items, animated) --- */}
+        <div className="lg:hidden absolute bottom-0 left-0 right-0 bg-black/40 backdrop-blur-sm text-white py-3 z-20">
+            <div className="grid grid-cols-4 text-center divide-x divide-white/30">
+                <div className="px-1">
+                    <div className="font-bold text-base sm:text-lg">
+                        <AnimatedCounter end={50} suffix="+" />
+                    </div>
+                    <div className="text-[10px] sm:text-xs">Happy Families</div>
+                </div>
+                <div className="px-1">
+                    <div className="font-bold text-base sm:text-lg">
+                        <AnimatedCounter end={100} suffix="+" />
+                    </div>
+                    <div className="text-[10px] sm:text-xs">Acres Developed</div>
+                </div>
+                <div className="px-1">
+                    <div className="font-bold text-base sm:text-lg">
+                        <AnimatedCounter end={20} suffix="+" />
+                    </div>
+                    <div className="text-[10px] sm:text-xs">Projects Completed</div>
+                </div>
+                <div className="px-1">
+                    <div className="font-bold text-base sm:text-lg">
+                        <AnimatedCounter end={100} suffix="%" />
+                    </div>
+                    <div className="text-[10px] sm:text-xs">Clear Title</div>
+                </div>
             </div>
-            <span className="text-lg font-semibold">GARISHTHA INFRA DEVELOPERS</span>
-          </div>
         </div>
       </section>
 
-      {/* Trust Indicators - Animated Counters */}
-      <section className="bg-blue-600 text-white py-12">
+      {/* --- Trust Indicators - Animated Counters (Hidden on mobile, visible on desktop) --- */}
+      <section className="hidden lg:block bg-blue-600 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
